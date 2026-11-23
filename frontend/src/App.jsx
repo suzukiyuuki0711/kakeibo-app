@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { apiRequest } from "./api";
 import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
+import ExpenseListPage from "./ExpenseListPage";
 import "./App.css";
 
 function App() {
   const [userName, setUserName] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [currentPage, setCurrentPage] = useState("home"); // 'home' | 'list' | 'form'
+  const [editingExpense, setEditingExpense] = useState(null);
 
   useEffect(() => {
     apiRequest("/auth/me")
@@ -30,6 +32,19 @@ function App() {
     }
     setUserName(null);
     setCurrentPage("home");
+    setEditingExpense(null);
+  };
+
+  const navigateTo = (page) => {
+    if (page !== "form") {
+      setEditingExpense(null);
+    }
+    setCurrentPage(page);
+  };
+
+  const handleStartEdit = (expense) => {
+    setEditingExpense(expense);
+    setCurrentPage("form");
   };
 
   if (checkingAuth) {
@@ -49,12 +64,11 @@ function App() {
 
   return (
     <div className="app-layout">
-      {/* 上部ヘッダー（白背景＋下線） */}
       <header className="app-header">
         <div className="header-left">
           <span
             className="header-logo clickable"
-            onClick={() => setCurrentPage("home")}
+            onClick={() => navigateTo("home")}
           >
             わたしの家計簿
           </span>
@@ -64,21 +78,20 @@ function App() {
         </div>
       </header>
 
-      {/* 左サイドバー ＋ 右メインエリア */}
       <div className="app-body">
         <aside className="sidebar">
           <nav className="sidebar-nav">
             <button
               type="button"
               className={`sidebar-item ${currentPage === "home" ? "active" : ""}`}
-              onClick={() => setCurrentPage("home")}
+              onClick={() => navigateTo("home")}
             >
               ホーム
             </button>
             <button
               type="button"
               className={`sidebar-item ${currentPage === "list" ? "active" : ""}`}
-              onClick={() => setCurrentPage("list")}
+              onClick={() => navigateTo("list")}
             >
               支出一覧
             </button>
@@ -97,20 +110,27 @@ function App() {
 
         <main className="main-content">
           {currentPage === "home" && (
-            <HomePage onNavigate={(page) => setCurrentPage(page)} />
+            <HomePage onNavigate={(page) => navigateTo(page)} />
           )}
-          {currentPage !== "home" && (
+          {currentPage === "list" && (
+            <ExpenseListPage
+              onNavigate={(page) => navigateTo(page)}
+              onEdit={(expense) => handleStartEdit(expense)}
+            />
+          )}
+          {currentPage === "form" && (
             <div className="panel-box">
               <p>
-                「{currentPage === "list" ? "支出一覧" : "支出登録"}
-                」画面は次のステップで作成します。
+                {editingExpense
+                  ? `ID:${editingExpense.expense_id} の編集画面は次のステップで作成します。`
+                  : "支出登録画面は次のステップで作成します。"}
               </p>
               <button
                 className="outline-btn"
-                onClick={() => setCurrentPage("home")}
+                onClick={() => navigateTo("list")}
                 style={{ marginTop: "16px" }}
               >
-                ホームへ戻る
+                一覧へ戻る
               </button>
             </div>
           )}

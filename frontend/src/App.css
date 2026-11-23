@@ -363,3 +363,85 @@ body {
   padding: 40px;
   color: #666666;
 }
+
+/* 支出一覧画面追加スタイル */
+.list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.list-filters {
+  display: flex;
+  gap: 16px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-item label {
+  font-size: 0.85rem;
+  color: #555555;
+}
+
+.filter-select {
+  min-width: 150px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  color: #222222;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.memo-cell {
+  color: #555555;
+  max-width: 220px;
+}
+
+.action-cell {
+  white-space: nowrap;
+}
+
+.table-edit-btn {
+  background-color: #ffffff;
+  border: 1px solid #1f6f54;
+  color: #1f6f54;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.table-edit-btn:hover {
+  background-color: #e6f0ec;
+}
+
+.table-delete-btn {
+  background-color: #ffffff;
+  border: 1px solid #d93025;
+  color: #d93025;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.table-delete-btn:hover {
+  background-color: #fdecea;
+}
+
+.empty-text {
+  text-align: center;
+  color: #666666;
+  padding: 40px 24px;
+}
