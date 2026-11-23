@@ -1,0 +1,8 @@
+[33mdf5d72e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m9dbfbd3[m[33m ([m[1;31morigin/main[m[33m)[m HEAD@{1}: commit: サイドバーのログアウト位置とカテゴリテーブルの左揃えを調整
+[33mdf5d72e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{2}: commit: 共通API通信処理とログイン・新規登録・ログアウト画面を実装
+[33mb1859de[m HEAD@{3}: commit: 支出管理API（一覧・詳細・登録・更新・削除・月別集計）を実装
+[33m6c287c3[m HEAD@{4}: commit: 認証機能API（ユーザー登録・ログイン・ログアウト）とCORS設定を実装
+[33m4da803b[m HEAD@{5}: commit: users・expensesテーブルのEntity作成と初期データ登録処理を実装
+[33m5021d1d[m HEAD@{6}: Branch: renamed refs/heads/master to refs/heads/main
+[33m5021d1d[m HEAD@{8}: commit (initial): 環境構築完了（React + Spring Boot + H2）

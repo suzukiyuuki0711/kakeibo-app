@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { apiRequest } from "./api";
 import LoginPage from "./LoginPage";
+import HomePage from "./HomePage";
 import "./App.css";
 
 function App() {
   const [userName, setUserName] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [currentPage, setCurrentPage] = useState("home"); // 'home' | 'list' | 'form'
 
-  // 起動時にログイン状態を確認
   useEffect(() => {
     apiRequest("/auth/me")
       .then((data) => {
@@ -28,40 +29,93 @@ function App() {
       // ignore
     }
     setUserName(null);
+    setCurrentPage("home");
   };
 
   if (checkingAuth) {
     return <div className="loading-screen">読み込み中...</div>;
   }
 
-  // 未ログイン時はログイン・新規登録画面を表示
   if (!userName) {
-    return <LoginPage onLoginSuccess={(name) => setUserName(name)} />;
+    return (
+      <LoginPage
+        onLoginSuccess={(name) => {
+          setUserName(name);
+          setCurrentPage("home");
+        }}
+      />
+    );
   }
 
-  // ログイン後の仮ホーム画面（次のステップで作り込みます）
   return (
     <div className="app-layout">
+      {/* 上部ヘッダー（白背景＋下線） */}
       <header className="app-header">
         <div className="header-left">
-          <span className="header-logo">わたしの家計簿</span>
+          <span
+            className="header-logo clickable"
+            onClick={() => setCurrentPage("home")}
+          >
+            わたしの家計簿
+          </span>
         </div>
         <div className="header-right">
           <span className="user-badge">{userName} さん</span>
-          <button onClick={handleLogout} className="logout-btn">
-            ログアウト
-          </button>
         </div>
       </header>
-      <main className="main-content">
-        <div className="card">
-          <h2>ログイン成功！</h2>
-          <p>
-            ようこそ、{userName}{" "}
-            さん。次のステップでホーム画面・一覧画面を作成します。
-          </p>
-        </div>
-      </main>
+
+      {/* 左サイドバー ＋ 右メインエリア */}
+      <div className="app-body">
+        <aside className="sidebar">
+          <nav className="sidebar-nav">
+            <button
+              type="button"
+              className={`sidebar-item ${currentPage === "home" ? "active" : ""}`}
+              onClick={() => setCurrentPage("home")}
+            >
+              ホーム
+            </button>
+            <button
+              type="button"
+              className={`sidebar-item ${currentPage === "list" ? "active" : ""}`}
+              onClick={() => setCurrentPage("list")}
+            >
+              支出一覧
+            </button>
+          </nav>
+
+          <div className="sidebar-footer">
+            <button
+              type="button"
+              className="sidebar-logout"
+              onClick={handleLogout}
+            >
+              ログアウト
+            </button>
+          </div>
+        </aside>
+
+        <main className="main-content">
+          {currentPage === "home" && (
+            <HomePage onNavigate={(page) => setCurrentPage(page)} />
+          )}
+          {currentPage !== "home" && (
+            <div className="panel-box">
+              <p>
+                「{currentPage === "list" ? "支出一覧" : "支出登録"}
+                」画面は次のステップで作成します。
+              </p>
+              <button
+                className="outline-btn"
+                onClick={() => setCurrentPage("home")}
+                style={{ marginTop: "16px" }}
+              >
+                ホームへ戻る
+              </button>
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
