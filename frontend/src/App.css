@@ -445,3 +445,14 @@ body {
   color: #666666;
   padding: 40px 24px;
 }
+
+/* 支出登録・編集画面追加スタイル */
+.form-panel {
+  max-width: 520px;
+}
+
+.form-action-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}

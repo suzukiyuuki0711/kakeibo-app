@@ -3,6 +3,7 @@ import { apiRequest } from "./api";
 import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
 import ExpenseListPage from "./ExpenseListPage";
+import ExpenseFormPage from "./ExpenseFormPage";
 import "./App.css";
 
 function App() {
@@ -119,20 +120,11 @@ function App() {
             />
           )}
           {currentPage === "form" && (
-            <div className="panel-box">
-              <p>
-                {editingExpense
-                  ? `ID:${editingExpense.expense_id} の編集画面は次のステップで作成します。`
-                  : "支出登録画面は次のステップで作成します。"}
-              </p>
-              <button
-                className="outline-btn"
-                onClick={() => navigateTo("list")}
-                style={{ marginTop: "16px" }}
-              >
-                一覧へ戻る
-              </button>
-            </div>
+            <ExpenseFormPage
+              editingExpense={editingExpense}
+              onSaved={() => navigateTo("list")}
+              onCancel={() => navigateTo("list")}
+            />
           )}
         </main>
       </div>
